@@ -31,3 +31,7 @@ NUM_BLOCKS = 23
 # CONTROL DE ENTRENAMIENTO CONTINUO
 CONTINUAR_ENTRENAMIENTO = False
 CHECKPOINT_PATH = f"{CHECKPOINTS_DIR}/checkpoint_epoch_5.pth"
+
+# PARÁMETROS DE INFERENCIA
+TILE_SIZE = 256        # Tamaño de mosaico para procesar imágenes grandes sin saturar VRAM
+OVERLAP = 32           # Solapamiento entre mosaicos para evitar bordes cortados
