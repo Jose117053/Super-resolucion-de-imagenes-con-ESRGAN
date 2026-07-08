@@ -34,8 +34,8 @@ Haciendo zoom para ver una mayor diferencia:
 - [ESRGAN: Enhanced Super-Resolution Generative Adversarial Networks (arXiv)](https://arxiv.org/pdf/1809.00219)
 
 - [SRGAN: Super-Resolution Generative Adversarial Networks (openaAccess)](https://openaccess.thecvf.com/content_cvpr_2017/papers/Ledig_Photo-Realistic_Single_Image_CVPR_2017_paper.pdf)
-https://arxiv.org/pdf/1603.08155
-- [Perceptual Losses for Real-Time Style Transfer and Super-Resolution (arXiv)](https://openaccess.thecvf.com/content_cvpr_2017/papers/Ledig_Photo-Realistic_Single_Image_CVPR_2017_paper.pdf)
+
+- [Perceptual Losses for Real-Time Style Transfer and Super-Resolution (arXiv)](https://arxiv.org/pdf/1603.08155)
 
 - [An Intuitive Introduction to Generative Adversarial Networks (freeCodeCamp)](https://www.freecodecamp.org/news/an-intuitive-introduction-to-generative-adversarial-networks-gans-7a2264a81394)
 - [Super-Resolution Generative Adversarial Networks (PyImageSearch)](https://pyimagesearch.com/2022/06/06/super-resolution-generative-adversarial-networks-srgan/)
