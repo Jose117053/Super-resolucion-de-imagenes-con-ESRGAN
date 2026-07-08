@@ -1,0 +1,9 @@
+services:
+  upscaler:
+    build: .
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./checkpoints:/app/checkpoints
+      - ./images:/app/images
+      - ./scaledImages:/app/scaledImages
