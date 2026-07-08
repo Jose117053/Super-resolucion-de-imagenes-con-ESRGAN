@@ -6,7 +6,7 @@ from PIL import Image
 
 class PrepareDataSet(Dataset):
     
-    def __init__(self, root_dir, split="train", scale_factor=4, patch_size=64, seed=42):
+    def __init__(self, root_dir, split="train", scale_factor=4, patch_size=128, seed=42):
         '''
         Lee las imagenes png del dataset en el root_dir, divide el conjunto en un 80%
         de entrenaimento y el 20% de validación.
