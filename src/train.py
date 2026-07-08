@@ -5,7 +5,7 @@ from src.utils import rgb_to_ycbcr_batch
 
 def train_model(generator, discriminator, vgg_extractor, train_loader, val_loader, 
                 optimizer_G, optimizer_D, bce_loss, pixel_loss, perceptual_loss, 
-                device, num_epochs=150):
+                device, num_epochs=150, start_epoch=0):
     '''
     Ejecuta el bucle de entrenamiento para el modelo ESRGAN.
     '''
@@ -19,7 +19,7 @@ def train_model(generator, discriminator, vgg_extractor, train_loader, val_loade
     val_percep_losses  = []
     val_color_losses   = []
 
-    for epoch in range(num_epochs):
+    for epoch in range(start_epoch, num_epochs):
 
         epoch_start = time.time()  
 
