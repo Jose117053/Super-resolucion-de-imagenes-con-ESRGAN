@@ -23,6 +23,9 @@ COPY gan.ipynb ./gan.ipynb
 COPY upscale.py ./upscale.py
 COPY resources/ ./resources/
 
+RUN chown -R 1000:1000 /app
+ENV HOME=/app
+
 EXPOSE 8888
 
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", \
