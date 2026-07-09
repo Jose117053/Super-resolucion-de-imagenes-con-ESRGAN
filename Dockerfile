@@ -2,7 +2,7 @@
 #Ejecutar: docker-compose up
 #Acceder: http://localhost:8888
 
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
@@ -23,8 +23,9 @@ COPY gan.ipynb ./gan.ipynb
 COPY upscale.py ./upscale.py
 COPY resources/ ./resources/
 
-RUN chown -R 1000:1000 /app
-ENV HOME=/app
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+ENV HOME=/home/appuser
 
 EXPOSE 8888
 
