@@ -1,10 +1,12 @@
 import torch
 
 # RUTAS Y DIRECTORIOS
-DATASET_ROOT = "Flickr2K"
-CHECKPOINTS_DIR = "./checkpoints"
-TEST_IMAGE_PATH = "./images/ciudad.jpg"
-OUTPUT_IMAGE_PATH = "./scaledImages/ciudadX4_5epocas_lousy.jpg"
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATASET_ROOT = os.path.join(BASE_DIR, "Flickr2K")
+CHECKPOINTS_DIR = os.path.join(BASE_DIR, "checkpoints")
+TEST_IMAGE_PATH = os.path.join(BASE_DIR, "images", "ciudad.jpg")
+OUTPUT_IMAGE_PATH = os.path.join(BASE_DIR, "scaledImages", "ciudadX4_5epocas_lousy.jpg")
 
 # HARDWARE
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")

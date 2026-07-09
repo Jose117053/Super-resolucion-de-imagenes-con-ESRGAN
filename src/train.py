@@ -2,6 +2,7 @@ import time
 import torch
 import torch.nn.functional as F
 from src.utils import rgb_to_ycbcr_batch
+import src.config as cfg
 
 def train_model(generator, discriminator, vgg_extractor, train_loader, val_loader, 
                 optimizer_G, optimizer_D, bce_loss, pixel_loss, perceptual_loss, 
@@ -193,7 +194,7 @@ def train_model(generator, discriminator, vgg_extractor, train_loader, val_loade
                 'optimizer_G': optimizer_G.state_dict(),
                 'optimizer_D': optimizer_D.state_dict()
             }
-            torch.save(checkpoint, f'./checkpoints/checkpoint_epoch_{epoch+1}.pth')
+            torch.save(checkpoint, f'{cfg.CHECKPOINTS_DIR}/checkpoint_epoch_{epoch+1}.pth')
 
     total_time = time.time() - start_time
     print(f"Entrenamiento completado en {total_time:.1f}s ({total_time/60:.1f} minutos).")

@@ -8,3 +8,4 @@ services:
       - ./checkpoints:/app/checkpoints
       - ./images:/app/images
       - ./scaledImages:/app/scaledImages
+      - ./Flickr2K:/app/Flickr2K
