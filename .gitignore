@@ -1,5 +1,11 @@
 __pycache__/
-Flickr2K/
-checkpoints/
-images/
-scaledImages/
+
+# Ignorar contenido pero conservar estructura de carpetas
+checkpoints/*
+!checkpoints/.gitkeep
+Flickr2K/*
+!Flickr2K/.gitkeep
+images/*
+!images/.gitkeep
+scaledImages/*
+!scaledImages/.gitkeep
