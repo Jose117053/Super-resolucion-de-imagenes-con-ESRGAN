@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESRGAN - AI Image Upscaler</title>
+    <meta name="description" content="Enhance image resolution up to 4x using ESRGAN AI model.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>ESRGAN AI</h1>
+        <p class="subtitle">Next-generation Image Super-Resolution. Enhance your images up to 4x quality using Deep
+            Learning.</p>
+    </header>
+
+    <main class="container">
+
+        <!-- Upload Section -->
+        <div class="glass-panel" id="upload-panel">
+            <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                <span class="upload-icon">✨</span>
+                <div class="upload-text">Drag & drop your image here</div>
+                <div class="upload-subtext">or click to browse from your computer</div>
+                <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp">
+            </div>
+
+            <div class="controls" id="controls">
+                <button class="btn" id="upscale-btn">Enhance Image 🚀</button>
+            </div>
+
+            <div class="loader" id="loader"></div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="glass-panel results-container" id="results-panel">
+            <div class="image-card">
+                <h3>Original Image <span id="original-size"></span></h3>
+                <div class="image-wrapper">
+                    <img id="original-img" alt="Original Upload">
+                </div>
+            </div>
+
+            <div class="image-card">
+                <h3>Enhanced (x4) <span id="enhanced-size"></span></h3>
+                <div class="image-wrapper">
+                    <img id="enhanced-img" alt="AI Enhanced Result">
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

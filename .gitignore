@@ -9,3 +9,4 @@ images/*
 !images/.gitkeep
 scaledImages/*
 !scaledImages/.gitkeep
+*.tex
