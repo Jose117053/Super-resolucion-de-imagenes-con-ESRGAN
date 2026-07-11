@@ -1,0 +1,10 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Montar checkpoints para que la API pueda cargar el modelo sin necesidad de reconstruir la imagen cada vez que cambia el .pth
+      - ./checkpoints:/app/checkpoints

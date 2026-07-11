@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+numpy
+Pillow
+python-multipart
+jinja2
+# PyTorch será instalado directamente en el Dockerfile con versión CPU-only para ahorrar espacio
