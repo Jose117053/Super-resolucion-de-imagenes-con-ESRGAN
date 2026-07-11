@@ -24,13 +24,9 @@ COPY app.py .
 # Crear carpetas de proyecto que config.py podría buscar para evitar errores de ruta
 RUN mkdir -p checkpoints images scaledImages Flickr2K
 
-# Descargar el modelo pesado (.pth) desde Google Drive usando el ID proporcionado
-RUN gdown --id 1XzOISaXUEAuR4qfR7Wb0yaX0IHtDbz2F -O checkpoints/checkpoint_epoch_40.pth
+# Descargar el modelo pesado (.pth) desde Google Drive
+RUN gdown 1XzOISaXUEAuR4qfR7Wb0yaX0IHtDbz2F -O checkpoints/checkpoint_epoch_40.pth
 
-# Copiar configuración de Gitkeep para mantener estructura
-COPY checkpoints/.gitkeep ./checkpoints/
-COPY images/.gitkeep ./images/
-COPY scaledImages/.gitkeep ./scaledImages/
 
 # Usuario no privilegiado (mejor práctica para Cloud Run)
 RUN useradd -m -u 1000 appuser && \
