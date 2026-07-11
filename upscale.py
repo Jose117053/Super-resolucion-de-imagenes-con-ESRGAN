@@ -84,21 +84,19 @@ def main():
 
     args = parser.parse_args()
 
-    # Determinar el dispositivo
     device = torch.device("cpu") if args.cpu else cfg.DEVICE
 
-    # Validar que el checkpoint existe
     if not os.path.isfile(args.checkpoint):
         print(f"Error: No se encontró el checkpoint en '{args.checkpoint}'.")
         print("Asegúrate de haber entrenado el modelo primero o especifica la ruta con --checkpoint.")
         sys.exit(1)
 
-    # Cargar el modelo
     model = load_model(args.checkpoint, device)
-
-    # Extensiones de imagen soportadas
+    
     valid_extensions = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".webp"}
-
+    #El siguiente codigo solo sirve de momento para el caso en que se ejecuta localmente desde la terminal
+    #En producción unicamente se cuenta con la opcion de subir una única imagen
+    
     # Caso 1: La entrada es una sola imagen
     if os.path.isfile(args.input):
         ext = os.path.splitext(args.input)[1].lower()

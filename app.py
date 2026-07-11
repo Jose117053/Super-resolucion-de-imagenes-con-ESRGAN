@@ -13,14 +13,10 @@ from src import config as cfg
 import src.utils as utils
 
 app = FastAPI(title="ESRGAN API", description="Image Super-Resolution API")
-
-# Configurar plantillas HTML
 templates = Jinja2Templates(directory="templates")
 
-# Montar archivos estáticos (CSS, JS)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Variable global para el modelo
 generator = None
 
 @app.on_event("startup")
@@ -28,7 +24,6 @@ async def load_model():
     global generator
     print("Cargando modelo ESRGAN en memoria...")
     
-    # Inicializar la arquitectura
     generator = RRDBNet(
         in_channels=cfg.IN_CHANNELS,
         out_channels=cfg.OUT_CHANNELS,
@@ -37,7 +32,6 @@ async def load_model():
         num_blocks=cfg.NUM_BLOCKS
     ).to(cfg.DEVICE)
     
-    # Cargar pesos del checkpoint configurado
     if os.path.exists(cfg.CHECKPOINT_PATH):
         print(f"Cargando pesos desde: {cfg.CHECKPOINT_PATH}")
         ckpt = torch.load(cfg.CHECKPOINT_PATH, map_location=cfg.DEVICE)
@@ -62,14 +56,12 @@ async def upscale_image(file: UploadFile = File(...)):
     if generator is None:
         return {"error": "El modelo no se cargó correctamente."}
         
-    # Guardar imagen temporalmente porque super_resolve_image pide una ruta
     with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp_in:
         contents = await file.read()
         tmp_in.write(contents)
         tmp_in_path = tmp_in.name
         
     try:
-        # Ejecutar la superresolución usando la función original
         sr_image = utils.super_resolve_image(
             model=generator,
             img_path=tmp_in_path,
@@ -79,19 +71,16 @@ async def upscale_image(file: UploadFile = File(...)):
             overlap=cfg.OVERLAP
         )
         
-        # Convertir la imagen PIL a bytes
         buf = io.BytesIO()
         sr_image.save(buf, format="JPEG", quality=95)
         buf.seek(0)
         
-        # Retornar la imagen directamente como archivo binario (streaming)
         return StreamingResponse(buf, media_type="image/jpeg")
         
     except Exception as e:
         return {"error": str(e)}
         
     finally:
-        # Limpiar archivo temporal
         if os.path.exists(tmp_in_path):
             os.remove(tmp_in_path)
 

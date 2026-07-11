@@ -10,7 +10,6 @@ const enhancedImg = document.getElementById('enhanced-img');
 
 let currentFile = null;
 
-// Handle Drag & Drop
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropZone.addEventListener(eventName, preventDefaults, false);
     document.body.addEventListener(eventName, preventDefaults, false);
@@ -47,18 +46,15 @@ function handleFiles(files) {
     if (files.length > 0) {
         currentFile = files[0];
 
-        // Show preview of original
         const reader = new FileReader();
         reader.readAsDataURL(currentFile);
         reader.onloadend = function () {
             originalImg.src = reader.result;
             originalImg.style.display = 'block';
 
-            // Reset results panel
             enhancedImg.style.display = 'none';
             resultsPanel.style.display = 'grid';
 
-            // Update text in dropzone
             dropZone.querySelector('.upload-text').textContent = currentFile.name;
             dropZone.querySelector('.upload-subtext').textContent = (currentFile.size / 1024 / 1024).toFixed(2) + ' MB';
 
@@ -67,11 +63,9 @@ function handleFiles(files) {
     }
 }
 
-// Handle Upscale Request
 upscaleBtn.addEventListener('click', async () => {
     if (!currentFile) return;
 
-    // UI Loading state
     upscaleBtn.disabled = true;
     upscaleBtn.textContent = 'Processing...';
     loader.style.display = 'block';
@@ -90,7 +84,6 @@ upscaleBtn.addEventListener('click', async () => {
             throw new Error('Server error during upscaling');
         }
 
-        // Convert response to blob for image display
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
 
@@ -101,7 +94,6 @@ upscaleBtn.addEventListener('click', async () => {
         console.error(error);
         alert('Error: ' + error.message);
     } finally {
-        // Restore UI state
         upscaleBtn.disabled = false;
         upscaleBtn.textContent = 'Enhance Image 🚀';
         loader.style.display = 'none';
