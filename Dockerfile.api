@@ -15,13 +15,17 @@ COPY requirements.api.txt .
 RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -r requirements.api.txt
 
-# Copiar el código fuente y templates
+# Copiar el código fuente, templates y archivos estáticos
 COPY src/ ./src/
 COPY templates/ ./templates/
+COPY static/ ./static/
 COPY app.py .
 
 # Crear carpetas de proyecto que config.py podría buscar para evitar errores de ruta
 RUN mkdir -p checkpoints images scaledImages Flickr2K
+
+# Descargar el modelo pesado (.pth) desde Google Drive usando el ID proporcionado
+RUN gdown --id 1XzOISaXUEAuR4qfR7Wb0yaX0IHtDbz2F -O checkpoints/checkpoint_epoch_40.pth
 
 # Copiar configuración de Gitkeep para mantener estructura
 COPY checkpoints/.gitkeep ./checkpoints/

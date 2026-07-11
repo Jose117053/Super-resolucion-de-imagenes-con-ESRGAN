@@ -4,4 +4,5 @@ numpy
 Pillow
 python-multipart
 jinja2
+gdown
 # PyTorch será instalado directamente en el Dockerfile con versión CPU-only para ahorrar espacio
