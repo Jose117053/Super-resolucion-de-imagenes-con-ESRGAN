@@ -2,7 +2,6 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Instalar dependencias del sistema necesarias (libgl1 y libglib para opencv/Pillow si aplica, y gcc)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libgl1 \
@@ -11,24 +10,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.api.txt .
 
-# Instalar PyTorch CPU-only explícitamente para ahorrar cientos de megas (ya que en producción usualmente se usa CPU)
 RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -r requirements.api.txt
 
-# Copiar el código fuente, templates y archivos estáticos
 COPY src/ ./src/
 COPY templates/ ./templates/
 COPY static/ ./static/
 COPY app.py .
 
-# Crear carpetas de proyecto que config.py podría buscar para evitar errores de ruta
 RUN mkdir -p checkpoints images scaledImages Flickr2K
 
-# Descargar el modelo pesado (.pth) desde Google Drive
 RUN gdown 1XzOISaXUEAuR4qfR7Wb0yaX0IHtDbz2F -O checkpoints/checkpoint_epoch_40.pth
-
-
-# Usuario no privilegiado (mejor práctica para Cloud Run)
 RUN useradd -m -u 1000 appuser && \
     chown -R appuser:appuser /app
 USER appuser
