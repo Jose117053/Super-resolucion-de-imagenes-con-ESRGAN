@@ -7,8 +7,14 @@ const resultsPanel = document.getElementById('results-panel');
 
 const originalImg = document.getElementById('original-img');
 const enhancedImg = document.getElementById('enhanced-img');
+const downloadBtn = document.getElementById('download-btn');
+
+const comparisonContainer = document.getElementById('comparison-container');
+const comparisonOverlay = document.getElementById('comparison-overlay');
+const comparisonSlider = document.getElementById('comparison-slider');
 
 let currentFile = null;
+let isDragging = false;
 
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropZone.addEventListener(eventName, preventDefaults, false);
@@ -46,20 +52,14 @@ function handleFiles(files) {
     if (files.length > 0) {
         currentFile = files[0];
 
-        const reader = new FileReader();
-        reader.readAsDataURL(currentFile);
-        reader.onloadend = function () {
-            originalImg.src = reader.result;
-            originalImg.style.display = 'block';
+        resultsPanel.style.display = 'none';
+        comparisonContainer.style.display = 'none';
+        downloadBtn.style.display = 'none';
 
-            enhancedImg.style.display = 'none';
-            resultsPanel.style.display = 'grid';
+        dropZone.querySelector('.upload-text').textContent = currentFile.name;
+        dropZone.querySelector('.upload-subtext').textContent = (currentFile.size / 1024 / 1024).toFixed(2) + ' MB';
 
-            dropZone.querySelector('.upload-text').textContent = currentFile.name;
-            dropZone.querySelector('.upload-subtext').textContent = (currentFile.size / 1024 / 1024).toFixed(2) + ' MB';
-
-            controls.style.display = 'block';
-        }
+        controls.style.display = 'block';
     }
 }
 
@@ -69,7 +69,8 @@ upscaleBtn.addEventListener('click', async () => {
     upscaleBtn.disabled = true;
     upscaleBtn.textContent = 'Processing...';
     loader.style.display = 'block';
-    enhancedImg.style.display = 'none';
+    downloadBtn.style.display = 'none';
+    comparisonContainer.style.display = 'none';
 
     const formData = new FormData();
     formData.append('file', currentFile);
@@ -85,10 +86,33 @@ upscaleBtn.addEventListener('click', async () => {
         }
 
         const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
+        const enhancedUrl = URL.createObjectURL(blob);
 
-        enhancedImg.src = url;
-        enhancedImg.style.display = 'block';
+        const originalUrl = URL.createObjectURL(currentFile);
+
+        enhancedImg.src = enhancedUrl;
+        originalImg.src = originalUrl;
+
+        enhancedImg.onload = function () {
+            resultsPanel.style.display = 'block';
+            comparisonContainer.style.display = 'block';
+
+            function syncDimensions() {
+                const rect = enhancedImg.getBoundingClientRect();
+                const overlayImg = comparisonOverlay.querySelector('img');
+                overlayImg.style.width = rect.width + 'px';
+                overlayImg.style.height = rect.height + 'px';
+            }
+
+            syncDimensions();
+            window.addEventListener('resize', syncDimensions);
+
+            setSliderPosition(50);
+
+            downloadBtn.href = enhancedUrl;
+            downloadBtn.download = 'upscaled_' + currentFile.name;
+            downloadBtn.style.display = 'inline-block';
+        };
 
     } catch (error) {
         console.error(error);
@@ -99,3 +123,38 @@ upscaleBtn.addEventListener('click', async () => {
         loader.style.display = 'none';
     }
 });
+
+function setSliderPosition(percent) {
+    percent = Math.max(0, Math.min(100, percent));
+    comparisonOverlay.style.width = percent + '%';
+    comparisonSlider.style.left = percent + '%';
+}
+
+function getSliderPercent(e) {
+    const rect = comparisonContainer.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    return ((clientX - rect.left) / rect.width) * 100;
+}
+
+comparisonContainer.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    setSliderPosition(getSliderPercent(e));
+});
+
+comparisonContainer.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    setSliderPosition(getSliderPercent(e));
+}, { passive: true });
+
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    setSliderPosition(getSliderPercent(e));
+});
+
+document.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    setSliderPosition(getSliderPercent(e));
+}, { passive: true });
+
+document.addEventListener('mouseup', () => { isDragging = false; });
+document.addEventListener('touchend', () => { isDragging = false; });

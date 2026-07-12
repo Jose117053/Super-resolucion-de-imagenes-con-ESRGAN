@@ -28,7 +28,7 @@ def plot_losses(historial, num_epochs):
     plt.subplot(1, 2, 2)
     plt.plot(epochs, train_percep_losses, label="Train Percep")
     plt.plot(epochs, val_percep_losses,   label="Val   Percep")
-    # Corregí un pequeño error tipográfico ("Épca" -> "Época")
+    
     plt.xlabel("Época")
     plt.ylabel("Perceptual Loss")
     plt.legend()

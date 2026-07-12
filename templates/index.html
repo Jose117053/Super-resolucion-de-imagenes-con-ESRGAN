@@ -7,12 +7,11 @@
     <title>ESRGAN - AI Image Upscaler</title>
     <meta name="description" content="Enhance image resolution up to 4x using ESRGAN AI model.">
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css?v=2">
 </head>
 
 <body>
@@ -41,26 +40,30 @@
             <div class="loader" id="loader"></div>
         </div>
 
-        <!-- Results Section -->
-        <div class="glass-panel results-container" id="results-panel">
-            <div class="image-card">
-                <h3>Original Image <span id="original-size"></span></h3>
-                <div class="image-wrapper">
-                    <img id="original-img" alt="Original Upload">
+        <!-- Comparison Slider -->
+        <div class="glass-panel" id="results-panel" style="display: none;">
+            <div class="comparison-labels">
+                <span>Original</span>
+                <span>Enhanced (x4)</span>
+            </div>
+            <div class="comparison-container" id="comparison-container">
+                <img id="enhanced-img" class="comparison-img" alt="AI Enhanced Result">
+                <div class="comparison-overlay" id="comparison-overlay">
+                    <img id="original-img" class="comparison-img" alt="Original Upload">
+                </div>
+                <div class="comparison-slider" id="comparison-slider">
+                    <div class="slider-line"></div>
+                    <div class="slider-handle">⟨⟩</div>
                 </div>
             </div>
-
-            <div class="image-card">
-                <h3>Enhanced (x4) <span id="enhanced-size"></span></h3>
-                <div class="image-wrapper">
-                    <img id="enhanced-img" alt="AI Enhanced Result">
-                </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a id="download-btn" class="btn" style="display: none; text-decoration: none;">Download High-Res 💾</a>
             </div>
         </div>
 
     </main>
 
-    <script src="/static/js/main.js"></script>
+    <script src="/static/js/main.js?v=2"></script>
 </body>
 
 </html>
